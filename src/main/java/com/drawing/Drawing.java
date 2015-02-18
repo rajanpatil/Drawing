@@ -1,15 +1,25 @@
 package com.drawing;
 
-import com.drawing.shape.Shape;
+import com.drawing.command.CanvasCommand;
+import com.drawing.command.Command;
+import com.drawing.command.ShapeCommand;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
-
-import static com.drawing.shape.ShapeFactory.newShape;
 
 /**
  * Created by ee on 18/2/15.
  */
 public class Drawing {
+    private static final Map<String, Command> commandsMap = new HashMap<String, Command>();
+
+    public Drawing() {
+        commandsMap.put("C", new CanvasCommand());
+        commandsMap.put("L", new ShapeCommand());
+        commandsMap.put("R", new ShapeCommand());
+        commandsMap.put("B", new ShapeCommand());
+    }
 
     public static void main(String[] args) {
         Drawing drawing = new Drawing();
@@ -17,9 +27,9 @@ public class Drawing {
         while (true) {
             System.out.print("Enter command:");
             Scanner in = new Scanner(System.in);
-            String[] command = in.nextLine().split(" ");
+            String command = in.nextLine();
 
-            if (command[0].equals("Q")) {
+            if (command.split(" ")[0].equals("Q")) {
                 break;
             }
 
@@ -27,29 +37,7 @@ public class Drawing {
         }
     }
 
-    public Canvas perform(Canvas canvas, String[] command) {
-        switch (command[0]) {
-            case "C":
-                Canvas newCanvas = Canvas.newCanvas(new Integer(command[1]), new Integer(command[2]));
-                newCanvas.draw();
-                return newCanvas;
-            case "L":
-                Shape line = newShape("Line", new Integer(command[1]), new Integer(command[2]), new Integer(command[3]), new Integer(command[4]));
-                line.draw(canvas);
-                canvas.draw();
-                return canvas;
-            case "R":
-                Shape rectangle = newShape("Rectangle", new Integer(command[1]), new Integer(command[2]), new Integer(command[3]), new Integer(command[4]));
-                rectangle.draw(canvas);
-                canvas.draw();
-                return canvas;
-            case "B":
-                Shape bucketFill = newShape("BucketFill", new Integer(command[1]), new Integer(command[2]), command[3].charAt(0));
-                bucketFill.draw(canvas);
-                canvas.draw();
-                return canvas;
-            default:
-                return canvas;
-        }
+    public Canvas perform(Canvas canvas, String command) {
+        return commandsMap.get(command.split(" ")[0]).execute(canvas, command);
     }
 }

@@ -1,24 +1,24 @@
 package com.drawing.shape;
 
+import static com.drawing.shape.ShapeEnum.*;
+
 /**
  * Created by ee on 18/2/15.
  */
 public class ShapeFactory {
-    public static Shape newShape(String shapeType, int x1, int y1, int x2, int y2) {
-        Shape shape = null;
-        if (shapeType.equals("Line")) {
-            shape = new Line(x1, y1, x2, y2);
-        } else if (shapeType.equals("Rectangle")) {
-            shape = new Rectangle(x1, y1, x2, y2);
-        }
-        return shape;
-    }
 
-    public static Shape newShape(String shapeType, int x1, int y1, char fillChar) {
+    public static Shape newShape(String command) {
         Shape shape = null;
-        if (shapeType.equals("BucketFill")) {
-            shape = new BucketFill(x1, y1, fillChar);
+        String[] params = command.split(" ");
+        ShapeEnum shapeType = valueOf(params[0]);
+        if (shapeType.equals(B)) {
+            shape = new BucketFill(new Integer(params[1]), new Integer(params[2]), params[3].charAt(0));
+        }else if (shapeType.equals(L)) {
+            shape = new Line(new Integer(params[1]), new Integer(params[2]),new Integer(params[3]), new Integer(params[4]));
+        }else  if (shapeType.equals(R)) {
+            shape = new Rectangle(new Integer(params[1]), new Integer(params[2]),new Integer(params[3]), new Integer(params[4]));
         }
+
         return shape;
     }
 }
