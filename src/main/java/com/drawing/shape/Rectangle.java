@@ -23,9 +23,7 @@ public class Rectangle implements Shape {
         char[][] canvasArea = canvas.getCanvasArea();
         for (int i = 0; i < canvasArea.length; i++) {
             for (int j = 0; j < canvasArea[0].length; j++) {
-                boolean yCond = y2 >= i && i >= y1;
-                boolean xCond = x2 >= j && j >= x1;
-                if (xCond && yCond)
+                if ((x2 >= j && j >= x1) && (y2 >= i && i >= y1))
                     if (y1 == i || y2 == i || x1 == j || x2 == j)
                         canvasArea[i][j] = 'x';
                     else

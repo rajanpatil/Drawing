@@ -13,6 +13,7 @@ public class Drawing {
 
     public static void main(String[] args) {
         Drawing drawing = new Drawing();
+        Canvas canvas = null;
         while (true) {
             System.out.print("Enter command:");
             Scanner in = new Scanner(System.in);
@@ -22,7 +23,7 @@ public class Drawing {
                 break;
             }
 
-            drawing.perform(null, command);
+            canvas = drawing.perform(canvas, command);
         }
     }
 

@@ -10,6 +10,9 @@ public class BucketFill implements Shape {
     private final int y1;
     private final char fillChar;
 
+    private static final int[][] neighboursX = {{-1, 0, +1}, {-1, 0, +1}, {-1, 0, +1}};
+    private static final int[][] neighboursY = {{+1, +1, +1}, {0, 0, 0}, {-1, -1, -1}};
+
     public BucketFill(int x1, int y1, char fillChar) {
         this.x1 = x1;
         this.y1 = y1;
@@ -24,70 +27,19 @@ public class BucketFill implements Shape {
     private void fillArea(char[][] canvas, int x1, int y1) {
         int yLength = canvas.length;
         int xLength = canvas[0].length;
-        int newX = x1, newY = y1;
 
-        if (canvas[newY][newX] == ' ') {
-            canvas[newY][newX] = fillChar;
+        if (canvas[y1][x1] == ' ') {
+            canvas[y1][x1] = fillChar;
         }
 
-        // x+1 y+1
-        if (x1 + 1 < xLength && y1 + 1 < yLength && canvas[y1 + 1][x1 + 1] == ' ') {
-            newX = x1 + 1;
-            newY = y1 + 1;
-            canvas[newY][newX] = fillChar;
-            fillArea(canvas, newX, newY);
-        }
-
-        // x y+1
-        if (y1 + 1 < yLength && canvas[y1 + 1][x1] == ' ') {
-            newY = y1 + 1;
-            canvas[newY][x1] = fillChar;
-            fillArea(canvas, x1, newY);
-        }
-
-        // x+1 y-1
-        if (x1 + 1 < xLength && y1 - 1 > 0 && canvas[y1 - 1][x1 + 1] == ' ') {
-            newX = x1 + 1;
-            newY = y1 - 1;
-            canvas[newY][newX] = fillChar;
-            fillArea(canvas, newX, newY);
-        }
-
-        // x y-1
-        if (y1 - 1 > 0 && canvas[y1 - 1][x1] == ' ') {
-            newY = y1 - 1;
-            canvas[newY][x1] = fillChar;
-            fillArea(canvas, x1, newY);
-        }
-
-        // x-1 y-1
-        if (x1 - 1 > 0 && y1 - 1 > 0 && canvas[y1 - 1][x1 - 1] == ' ') {
-            newX = x1 - 1;
-            newY = y1 - 1;
-            canvas[newY][newX] = fillChar;
-            fillArea(canvas, newX, newY);
-        }
-
-        //x+1 y
-        if (x1 + 1 > 0 && canvas[y1][x1 + 1] == ' ') {
-            newX = x1 + 1;
-            canvas[y1][newX] = fillChar;
-            fillArea(canvas, newX, y1);
-        }
-
-        //x-1 y+1
-        if (x1 - 1 > 0 && y1 + 1 < yLength && canvas[y1 + 1][x1 - 1] == ' ') {
-            newX = x1 - 1;
-            newY = y1 + 1;
-            canvas[newY][newX] = fillChar;
-            fillArea(canvas, newX, newY);
-        }
-
-        //x-1 y
-        if (x1 - 1 < xLength && canvas[y1][x1 - 1] == ' ') {
-            newX = x1 - 1;
-            canvas[newY][x1] = fillChar;
-            fillArea(canvas, newX, y1);
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                int neighbourX = x1 + neighboursX[i][j];
+                int neighbourY = y1 + neighboursY[i][j];
+                if ((neighbourX >= 0) && (neighbourX < xLength) && (neighbourY >= 0) && (neighbourY < yLength) && (canvas[neighbourY][neighbourX] == ' ')) {
+                    fillArea(canvas, neighbourX, neighbourY);
+                }
+            }
         }
     }
 }
