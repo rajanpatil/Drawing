@@ -36,8 +36,10 @@ public class Canvas {
 
         for (int i = y1; i < y2; i++) {
             for (int j = x1; j < x2; j++) {
-                if (y1 == i || y2 - 1 == i || x1 == j || x2 - 1 == j)
+                if (y1 == i || y2 - 1 == i )
                     canvasArea[i][j] = '-';
+                else if (x1 == j || x2 - 1 == j)
+                    canvasArea[i][j] = '|';
                 else
                     canvasArea[i][j] = ' ';
             }

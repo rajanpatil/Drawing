@@ -2,7 +2,7 @@ package com.drawing;
 
 import org.junit.Test;
 
-import static junit.framework.Assert.assertNotNull;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by ee on 18/2/15.
