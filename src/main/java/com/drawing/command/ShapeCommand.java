@@ -1,10 +1,8 @@
 package com.drawing.command;
 
 import com.drawing.Canvas;
-import com.drawing.command.Command;
 import com.drawing.shape.Shape;
 
-import static com.drawing.shape.ShapeEnum.valueOf;
 import static com.drawing.shape.ShapeFactory.newShape;
 
 /**

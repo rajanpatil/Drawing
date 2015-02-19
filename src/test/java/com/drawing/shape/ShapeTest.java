@@ -3,9 +3,7 @@ package com.drawing.shape;
 import com.drawing.Canvas;
 import org.junit.Test;
 
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.*;
 
 /**
  * Created by ee on 18/2/15.

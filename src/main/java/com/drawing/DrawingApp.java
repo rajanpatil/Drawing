@@ -11,10 +11,10 @@ import java.util.Scanner;
 /**
  * Created by ee on 18/2/15.
  */
-public class Drawing {
-    private static final Map<String, Command> commandsMap = new HashMap<String, Command>();
+public class DrawingApp {
+    private final Map<String, Command> commandsMap = new HashMap<String, Command>();
 
-    public Drawing() {
+    public DrawingApp() {
         commandsMap.put("C", new CanvasCommand());
         commandsMap.put("L", new ShapeCommand());
         commandsMap.put("R", new ShapeCommand());
@@ -22,11 +22,11 @@ public class Drawing {
     }
 
     public static void main(String[] args) {
-        Drawing drawing = new Drawing();
+        DrawingApp drawing = new DrawingApp();
         Canvas canvas = null;
+        Scanner in = new Scanner(System.in);
         while (true) {
             System.out.print("Enter command:");
-            Scanner in = new Scanner(System.in);
             String command = in.nextLine();
 
             if (command.split(" ")[0].equals("Q")) {
@@ -34,6 +34,7 @@ public class Drawing {
             }
 
             canvas = drawing.perform(canvas, command);
+
         }
     }
 
