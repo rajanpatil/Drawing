@@ -24,7 +24,7 @@ public class DrawingApp {
         drawing.start();
     }
 
-    private void start() {
+    public void start() {
         Canvas canvas = null;
         Scanner in = new Scanner(System.in);
         while (true) {
