@@ -30,7 +30,7 @@ public class BucketFill implements Shape {
 
         if (canvas[y1][x1] == ' ') {
             canvas[y1][x1] = fillChar;
-        }else{
+        } else {
             return;
         }
 

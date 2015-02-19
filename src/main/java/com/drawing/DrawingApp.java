@@ -1,7 +1,6 @@
 package com.drawing;
 
 import com.drawing.command.*;
-import com.drawing.shape.Shape;
 
 import java.util.HashMap;
 import java.util.Map;
