@@ -1,8 +1,7 @@
 package com.drawing;
 
-import com.drawing.command.CanvasCommand;
-import com.drawing.command.Command;
-import com.drawing.command.ShapeCommand;
+import com.drawing.command.*;
+import com.drawing.shape.Shape;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,13 +15,17 @@ public class DrawingApp {
 
     public DrawingApp() {
         commandsMap.put("C", new CanvasCommand());
-        commandsMap.put("L", new ShapeCommand());
-        commandsMap.put("R", new ShapeCommand());
-        commandsMap.put("B", new ShapeCommand());
+        commandsMap.put("L", new LineCommand());
+        commandsMap.put("R", new RectangleCommand());
+        commandsMap.put("B", new BucketFillCommand());
     }
 
     public static void main(String[] args) {
         DrawingApp drawing = new DrawingApp();
+        drawing.start();
+    }
+
+    private void start() {
         Canvas canvas = null;
         Scanner in = new Scanner(System.in);
         while (true) {
@@ -33,12 +36,12 @@ public class DrawingApp {
                 break;
             }
 
-            canvas = drawing.perform(canvas, command);
-
+            canvas = perform(canvas, command);
         }
     }
 
     public Canvas perform(Canvas canvas, String command) {
-        return commandsMap.get(command.split(" ")[0]).execute(canvas, command);
+        String[] params = command.split(" ");
+        return commandsMap.get(params[0]).execute(canvas, command);
     }
 }

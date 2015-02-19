@@ -1,6 +1,7 @@
 package com.drawing.command;
 
 import com.drawing.Canvas;
+import com.drawing.shape.Rectangle;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -19,10 +20,26 @@ public class CommandTest {
     }
 
     @Test
-    public void itShouldExecuteShapeCommand() {
+    public void itShouldExecuteLineCommand() {
         Canvas canvas = Canvas.newCanvas(20, 10);
-        ShapeCommand shapeCommand = new ShapeCommand();
-        Canvas actualCanvas = shapeCommand.execute(canvas, "L 10 1 10 10");
+        LineCommand lineCommand = new LineCommand();
+        Canvas actualCanvas = lineCommand.execute(canvas, "L 10 1 10 10");
+        assertEquals(canvas, actualCanvas);
+    }
+
+    @Test
+    public void itShouldExecuteRectangleCommand() {
+        Canvas canvas = Canvas.newCanvas(20, 10);
+        RectangleCommand rectangleCommand = new RectangleCommand();
+        Canvas actualCanvas = rectangleCommand.execute(canvas, "R 2 2 8 8");
+        assertEquals(canvas, actualCanvas);
+    }
+
+    @Test
+    public void itShouldExecuteBucketFillCommand() {
+        Canvas canvas = Canvas.newCanvas(20, 10);
+        BucketFillCommand bucketFillCommand = new BucketFillCommand();
+        Canvas actualCanvas = bucketFillCommand.execute(canvas, "B 3 3 o");
         assertEquals(canvas, actualCanvas);
     }
 }
