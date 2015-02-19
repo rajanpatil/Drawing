@@ -11,27 +11,6 @@ import static org.junit.Assert.*;
 public class ShapeTest {
 
     @Test
-    public void itShouldCreateLine() {
-        Shape line = new Line(2, 4, 10, 4);
-        assertNotNull(line);
-        assertTrue(line instanceof Line);
-    }
-
-    @Test
-    public void itShouldCreateARectangle() {
-        Shape rectangle = new Rectangle(2, 2, 10, 10);
-        assertNotNull(rectangle);
-        assertTrue(rectangle instanceof Rectangle);
-    }
-
-    @Test
-    public void itShouldCreateABucketFill() {
-        Shape bucketFill = new BucketFill(2, 10, 'o');
-        assertNotNull(bucketFill);
-        assertTrue(bucketFill instanceof BucketFill);
-    }
-
-    @Test
     public void itShouldDrawALineOnCanvas() {
         Shape line = new Line(1, 3, 3, 3);
         Canvas canvas = Canvas.newCanvas(4, 4);
@@ -44,7 +23,6 @@ public class ShapeTest {
                 {'-', '-', '-', '-', '-', '-'},
         };
         line.draw(canvas);
-        canvas.draw();
         char[][] canvasArea = canvas.getCanvasArea();
 
         assertArrayEquals(expectedCanvasArea, canvasArea);
@@ -63,7 +41,6 @@ public class ShapeTest {
                 {'-', '-', '-', '-', '-', '-'},
         };
         rectangle.draw(canvas);
-        canvas.draw();
         char[][] canvasArea = canvas.getCanvasArea();
 
         assertArrayEquals(expectedCanvasArea, canvasArea);
@@ -82,7 +59,6 @@ public class ShapeTest {
                 {'-', '-', '-', '-', '-', '-'},
         };
         bucketFill.draw(canvas);
-        canvas.draw();
         char[][] canvasArea = canvas.getCanvasArea();
 
         assertArrayEquals(expectedCanvasArea, canvasArea);
