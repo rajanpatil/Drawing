@@ -5,43 +5,59 @@ package com.drawing;
  */
 public class Canvas {
 
+    private final int height;
+    private final int width;
     private char[][] canvasArea;
 
-    private Canvas(int height, int width) {
-        initialize(height, width);
+    public Canvas(int height, int width) {
+        this.height = height;
+        this.width = width;
+        initialize();
     }
 
-
-    public static Canvas newCanvas(int height, int width) {
-        return new Canvas(height, width);
+    public int getHeight() {
+        return this.height;
     }
 
+    public int getWidth() {
+        return this.width ;
+    }
 
-    public void draw() {
-        for (int i = 0; i < canvasArea.length; i++) {
-            for (int j = 0; j < canvasArea[0].length; j++) {
-                System.out.print(canvasArea[i][j]);
-            }
-            System.out.println();
+    public void setPixel(int x, int y, char ch) {
+        canvasArea[y][x] = ch;
+    }
+
+    public char getPixel(int x, int y) {
+        return canvasArea[y][x];
+    }
+
+    public String draw() {
+        StringBuffer canvasAsString = new StringBuffer("");
+        for(int i = 0;i<width+2;i++){
+            canvasAsString.append("-");
         }
+        canvasAsString.append("\n");
+        for (int i = 0; i < height ; i++) {
+            canvasAsString.append("|");
+            for (int j = 0; j < width ; j++) {
+               canvasAsString.append(canvasArea[i][j]);
+            }
+            canvasAsString.append("|\n");
+        }
+        for(int i = 0;i<width+2;i++){
+            canvasAsString.append("-");
+        }
+        canvasAsString.append("\n");
+        return canvasAsString.toString();
     }
 
-    public char[][] getCanvasArea() {
-        return this.canvasArea;
-    }
-
-    private void initialize(int width, int height) {
-        int x1 = 0, x2 = width + 2, y1 = 0, y2 = height + 2;
+    private void initialize() {
+        int x1 = 0, x2 = width , y1 = 0, y2 = height;
         this.canvasArea = new char[y2][x2];
 
         for (int i = y1; i < y2; i++) {
             for (int j = x1; j < x2; j++) {
-                if (y1 == i || y2 - 1 == i)
-                    canvasArea[i][j] = '-';
-                else if (x1 == j || x2 - 1 == j)
-                    canvasArea[i][j] = '|';
-                else
-                    canvasArea[i][j] = ' ';
+                   canvasArea[i][j] = ' ';
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.drawing;
 
 import com.drawing.command.*;
+import com.drawing.shape.ShapeFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,10 +14,10 @@ public class DrawingApp {
     private final Map<String, Command> commandsMap = new HashMap<String, Command>();
 
     public DrawingApp() {
-        commandsMap.put("C", new CanvasCommand());
-        commandsMap.put("L", new LineCommand());
-        commandsMap.put("R", new RectangleCommand());
-        commandsMap.put("B", new BucketFillCommand());
+        commandsMap.put("C", new CanvasCommand(new CanvasCreator()));
+        commandsMap.put("L", new LineCommand(new ShapeFactory()));
+        commandsMap.put("R", new RectangleCommand(new ShapeFactory()));
+        commandsMap.put("B", new BucketFillCommand(new ShapeFactory()));
     }
 
     public static void main(String[] args) {
@@ -40,7 +41,12 @@ public class DrawingApp {
     }
 
     public Canvas perform(Canvas canvas, String command) {
-        String[] params = command.split(" ");
-        return commandsMap.get(params[0]).execute(canvas, command);
+        Canvas currentCanvas = getCommand(command).execute(canvas, command);
+        System.out.println(currentCanvas.draw());
+        return currentCanvas;
+    }
+
+    public Command getCommand(String command) {
+        return commandsMap.get(command.split(" ")[0]);
     }
 }

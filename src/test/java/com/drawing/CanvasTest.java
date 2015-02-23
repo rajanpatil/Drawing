@@ -3,8 +3,8 @@ package com.drawing;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
+
 
 /**
  * Created by ee on 18/2/15.
@@ -12,39 +12,35 @@ import static org.junit.Assert.assertNotNull;
 public class CanvasTest {
 
     @Test
-    public void itShouldCreateCanvasWith20HeightAnd4Width() {
-        Canvas canvas = Canvas.newCanvas(20, 4);
-        assertNotNull(canvas);
-    }
-
-    @Test
-    public void itShouldCreateAndInitializeCanvas() {
-        Canvas canvas = Canvas.newCanvas(4, 4);
-        char[][] expectedCanvasArea = new char[][]{
-                {'-', '-', '-', '-', '-', '-'},
-                {'|', ' ', ' ', ' ', ' ', '|'},
-                {'|', ' ', ' ', ' ', ' ', '|'},
-                {'|', ' ', ' ', ' ', ' ', '|'},
-                {'|', ' ', ' ', ' ', ' ', '|'},
-                {'-', '-', '-', '-', '-', '-'},
-        };
-        char[][] canvasArea = canvas.getCanvasArea();
-        assertArrayEquals(expectedCanvasArea, canvasArea);
+    public void itShouldCreateAnEmptyCanvas() {
+        Canvas canvas = new CanvasCreator().createCanvas(4, 4);
+        int expectedHeight = 4, expectedWidth = 4;
+        assertEquals(expectedHeight, canvas.getHeight());
+        assertEquals(expectedWidth, canvas.getWidth());
     }
 
     @Test
     public void itShouldCreateAndDrawCanvas() {
-        Canvas canvas = Canvas.newCanvas(4, 4);
-        char[][] expectedCanvasArea = new char[][]{
-                {'-', '-', '-', '-', '-', '-'},
-                {'|', ' ', ' ', ' ', ' ', '|'},
-                {'|', ' ', ' ', ' ', ' ', '|'},
-                {'|', ' ', ' ', ' ', ' ', '|'},
-                {'|', ' ', ' ', ' ', ' ', '|'},
-                {'-', '-', '-', '-', '-', '-'},
-        };
-        canvas.draw();
-        char[][] canvasArea = canvas.getCanvasArea();
-        assertArrayEquals(expectedCanvasArea, canvasArea);
+        Canvas canvas = new CanvasCreator().createCanvas(4, 4);
+        String expectedCanvas = "------\n|    |\n|    |\n|    |\n|    |\n------\n";
+        String actualCanvas = canvas.draw();
+        assertEquals(expectedCanvas, actualCanvas);
+    }
+
+    @Test
+    public void itShouldSetPixelInCanvas() {
+        Canvas canvas = new CanvasCreator().createCanvas(4, 4);
+        String expectedCanvas = "------\n|    |\n| o  |\n|    |\n|    |\n------\n";
+        canvas.setPixel(1, 1, 'o');
+        String actualCanvas = canvas.draw();
+        assertEquals(expectedCanvas, actualCanvas);
+    }
+
+    @Test
+    public void itShouldGetPixelFromCanvas() {
+        Canvas canvas = new CanvasCreator().createCanvas(4, 4);
+        char expectedPixel = ' ';
+        char actualPixel = canvas.getPixel(2, 2);
+        assertEquals(expectedPixel, actualPixel);
     }
 }

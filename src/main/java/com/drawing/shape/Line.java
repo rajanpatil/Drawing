@@ -20,11 +20,10 @@ public class Line implements Shape {
 
     @Override
     public void draw(Canvas canvas) {
-        char[][] canvasArea = canvas.getCanvasArea();
-        for (int i = 0; i < canvasArea.length; i++) {
-            for (int j = 0; j < canvasArea[0].length; j++) {
+        for (int i = 0; i < canvas.getHeight(); i++) {
+            for (int j = 0; j < canvas.getWidth(); j++) {
                 if ((x2 >= j && j >= x1) && (y2 >= i && i >= y1))
-                    canvasArea[i][j] = 'x';
+                    canvas.setPixel(i, j,'x');
             }
         }
     }

@@ -1,8 +1,10 @@
 package com.drawing;
 
+import com.drawing.command.*;
 import org.junit.Test;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by ee on 18/2/15.
@@ -10,61 +12,120 @@ import static org.junit.Assert.assertNotNull;
 public class DrawingAppTest {
 
     @Test
-    public void itShouldPerform_C_20_10_Command() {
+    public void itShouldGetCanvasCommand() {
+        Canvas canvas = null;
+        String command = "C 20 10";
+        DrawingApp drawing = new DrawingApp();
+        Command commandObj = drawing.getCommand(command);
+        assertTrue(commandObj instanceof CanvasCommand);
+    }
+
+    @Test
+    public void itShouldGetLineCommand() {
+        String command = "L 0 2 6 2";
+        DrawingApp drawing = new DrawingApp();
+        Command commandObj = drawing.getCommand(command);
+        assertTrue(commandObj instanceof LineCommand);
+    }
+
+    @Test
+    public void itShouldGetRectangleCommand() {
+        String command = "R 2 2 6 6";
+        DrawingApp drawing = new DrawingApp();
+        Command commandObj = drawing.getCommand(command);
+        assertTrue(commandObj instanceof RectangleCommand);
+    }
+
+    @Test
+    public void itShouldGetBucketFillCommand() {
+        String command = "B 2 4 o";
+        DrawingApp drawing = new DrawingApp();
+        Command commandObj = drawing.getCommand(command);
+        assertTrue(commandObj instanceof BucketFillCommand);
+    }
+
+    @Test
+    public void itShouldCreateACanvas() {
         Canvas canvas = null;
         String command = "C 20 10";
         DrawingApp drawing = new DrawingApp();
         canvas = drawing.perform(canvas, command);
-        assertNotNull(canvas);
+        int expectedHeight = 20, expectedWidth = 10;
+        assertEquals(expectedHeight, canvas.getHeight());
+        assertEquals(expectedWidth, canvas.getWidth());
     }
 
+
+    /*
+        Drawing application integration tests.
+     */
+
     @Test
-    public void itShouldPerform_L_2_4_8_4_Command() {
+    public void integration_itShouldDrawALineOnCanvas() {
         Canvas canvas = null;
-        String createCanvasCommand = "C 20 10";
+        String createCanvasCommand = "C 4 4";
         DrawingApp drawing = new DrawingApp();
         canvas = drawing.perform(canvas, createCanvasCommand);
 
-        String drawLineCommand = "L 2 4 8 4";
-        drawing.perform(canvas, drawLineCommand);
-    }
-
-    @Test
-    public void itShouldPerform_R_2_2_8_8_Command() {
-        Canvas canvas = null;
-        String createCanvasCommand = "C 20 10";
-        DrawingApp drawing = new DrawingApp();
-        canvas = drawing.perform(canvas, createCanvasCommand);
-
-        String drawRectangleCommand = "R 2 2 8 8";
-        drawing.perform(canvas, drawRectangleCommand);
-    }
-
-    @Test
-    public void itShouldPerform_B_6_8_o_Command() {
-        Canvas canvas = null;
-        String createCanvasCommand = "C 20 10";
-        DrawingApp drawing = new DrawingApp();
-        canvas = drawing.perform(canvas, createCanvasCommand);
-
-        String drawBucketFillCommand = "B 6 8 o";
-        drawing.perform(canvas, drawBucketFillCommand);
-    }
-
-    @Test
-    public void itShouldPerform_L_2_4_8_4_R_2_2_8_8__B_6_8_o_Commands() {
-        Canvas canvas = null;
-        String createCanvasCommand = "C 20 10";
-        DrawingApp drawing = new DrawingApp();
-        canvas = drawing.perform(canvas, createCanvasCommand);
-
-        String drawLineCommand = "L 2 4 8 4";
+        String drawLineCommand = "L 0 2 2 2";
         drawing.perform(canvas, drawLineCommand);
 
-        String drawRectangleCommand = "R 2 2 8 8";
+        String expectedCanvas = "------\n|  x |\n|  x |\n|  x |\n|    |\n------\n";
+        String actualCanvas = canvas.draw();
+
+        assertEquals(expectedCanvas, actualCanvas);
+    }
+
+    @Test
+    public void integration_itShouldDrawARectangleOnCanvas() {
+        Canvas canvas = null;
+        String createCanvasCommand = "C 4 4";
+        DrawingApp drawing = new DrawingApp();
+        canvas = drawing.perform(canvas, createCanvasCommand);
+
+        String drawRectangleCommand = "R 1 1 2 2";
         drawing.perform(canvas, drawRectangleCommand);
 
-        String drawBucketFillCommand = "B 10 8 o";
+        String expectedCanvas = "------\n|    |\n| xx |\n| xx |\n|    |\n------\n";
+        String actualCanvas = canvas.draw();
+
+        assertEquals(expectedCanvas, actualCanvas);
+    }
+
+    @Test
+    public void integration_itShouldDrawABucketFillOnCanvas() {
+        Canvas canvas = null;
+        String createCanvasCommand = "C 4 4";
+        DrawingApp drawing = new DrawingApp();
+        canvas = drawing.perform(canvas, createCanvasCommand);
+
+        String drawBucketFillCommand = "B 0 0 o";
         drawing.perform(canvas, drawBucketFillCommand);
+
+        String expectedCanvas = "------\n|oooo|\n|oooo|\n|oooo|\n|oooo|\n------\n";
+        String actualCanvas = canvas.draw();
+
+        assertEquals(expectedCanvas, actualCanvas);
+    }
+
+    @Test
+    public void integration_itShouldDrawALine_Rectangle_And_BucketFill_OnCanvas() {
+        Canvas canvas = null;
+        String createCanvasCommand = "C 8 8";
+        DrawingApp drawing = new DrawingApp();
+        canvas = drawing.perform(canvas, createCanvasCommand);
+
+        String drawLineCommand = "L 0 2 2 2";
+        drawing.perform(canvas, drawLineCommand);
+
+        String drawRectangleCommand = "R 3 3 6 6";
+        drawing.perform(canvas, drawRectangleCommand);
+
+        String drawBucketFillCommand = "B 4 4 o";
+        drawing.perform(canvas, drawBucketFillCommand);
+
+        String expectedCanvas = "----------\n|  x     |\n|  x     |\n|  x     |\n|   xxxx |\n|   xoox |\n|   xoox |\n|   xxxx |\n|        |\n----------\n";
+        String actualCanvas = canvas.draw();
+        assertEquals(expectedCanvas, actualCanvas);
     }
 }
